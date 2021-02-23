@@ -7,18 +7,25 @@ const App = () => {
   const [data, setData] = React.useState({})
   const { name, email, user_type, password } = data
 
-  const [errors, setErrors] = React.useState([{}])
+  const [errors, setErrors] = React.useState([])
+  const [active, setActive] = React.useState({})
 
   const changeHandler = (event) => {
     const { name, value } = event.target
     setData({ ...data, [name]: value })
-    setErrors([])
+    e.recheck(event, active, setActive)
   }
 
   const submitHandler = (event) => {
     event.preventDefault()
-    e.error_check(data, setErrors)
+    e.error_check(data, setErrors, active, setActive)
   }
+
+  React.useEffect(() => {
+    if (!Object.values(active).includes(true)) {
+      setErrors([])
+    }
+  }, [active])
 
   return (
     <main>
@@ -41,30 +48,36 @@ const App = () => {
             <div className='input-container'>
               <input
                 required
-                className={e.class_error(name, 'name', errors)}
+                className={e.class_error(name, 'name', errors, active)}
                 type='text'
                 id='name'
                 name='name'
                 onChange={changeHandler}
               />
-              <label className={e.label_error(errors, 'name')} htmlFor='name'>
+              <label
+                className={e.label_error(errors, 'name', active)}
+                htmlFor='name'
+              >
                 Your name
               </label>
-              {e.err_msg(errors, 'name')}
+              {e.err_msg(errors, 'name', active)}
             </div>
 
             <div className='input-container '>
               <input
                 required
-                className={e.class_error(email, 'email', errors)}
+                className={e.class_error(email, 'email', errors, active)}
                 type='email'
                 name='email'
                 onChange={changeHandler}
               />
-              <label className={e.label_error(errors, 'email')} htmlFor='email'>
+              <label
+                className={e.label_error(errors, 'email', active)}
+                htmlFor='email'
+              >
                 Email address
               </label>
-              {e.err_msg(errors, 'email')}
+              {e.err_msg(errors, 'email', active)}
             </div>
 
             <div className='input-container select'>
@@ -86,22 +99,30 @@ const App = () => {
             <div className='input-container'>
               <input
                 required
-                className={e.class_error(password, 'password', errors)}
+                className={e.class_error(password, 'password', errors, active)}
                 type='password'
                 id='password'
                 name='password'
                 onChange={changeHandler}
               />
               <label
-                className={e.label_error(errors, 'password')}
+                className={e.label_error(errors, 'password', active)}
                 htmlFor='password'
               >
                 Password
               </label>
-              {e.err_msg(errors, 'password')}
+              {e.err_msg(errors, 'password', active)}
             </div>
+            {errors.length > 0 ? (
+              <button type='submit' disabled className='disabled'>
+                Next
+              </button>
+            ) : (
+              <button type='submit' className={'button'}>
+                Next
+              </button>
+            )}
 
-            <button type='submit'>Next</button>
             <p>
               By click the "Next" button, you agree to creating a free account,
               and to <span>Terms of Service</span> and

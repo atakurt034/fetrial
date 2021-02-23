@@ -42,13 +42,15 @@ grid-template-areas: "left_body   right_body"
 
     
       li.active {
-        border-color: #000
+        border-color: #000;
+        background-color: #000;
       }
       li {
         height: 1px;
         width: 1px;
         margin: 0 6px 0 0;
         border: 2px solid grey;
+        background-color: grey;
         border-radius: 50%;
       }
     }
@@ -107,6 +109,7 @@ grid-template-areas: "left_body   right_body"
         top: 35px;
         left: 13px;
         background: transparent;
+        transition: .12s;
         
       }
 
@@ -156,7 +159,7 @@ grid-template-areas: "left_body   right_body"
         border-radius: 5px;
       }
 
-      button {
+      .button {
         margin-top: 10px;
         width: 410px;
         border-radius: 5px;
@@ -167,11 +170,22 @@ grid-template-areas: "left_body   right_body"
         cursor: pointer;
         background-color: $background-color;
       }
-      button:hover {
+      .button:hover {
         color: rgb(22, 21, 21);
         background-color:$background-color-darker;
       };
-      
+
+      .disabled {
+        margin-top: 10px;
+        width: 410px;
+        border-radius: 5px;
+        border: none;
+        height: 40px;
+        padding: 10px;
+        color: grey;
+        cursor: not-allowed;
+        background-color:#ccc;
+      }
       
     }
 
