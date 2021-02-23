@@ -1,5 +1,11 @@
 $background-color: #286efa;
 $background-color-darker: #2a67e0;
+$border-color: #dadce0;
+$input-color: #8d8d8d;
+
+.bold {
+  font-weight: 600;
+}
 
 main {
 display: grid;
@@ -7,7 +13,7 @@ grid-template-columns: 1fr 35vw;
 grid-template-areas: "left_body   right_body"
                      "left_body   right_body";
                      
-left {
+.left {
   grid-area: left_body;
   height:100vh;
   display: grid;
@@ -23,14 +29,29 @@ left {
 
   div.steps {
     grid-area: steps;
+    font-size: 10px;
     text-align: right;
+    padding: 10px;
 
-      span.active {
-        color: #000
+    ul {
+      display: inline-flex;
+      width: 20px;
+      padding: 0 5px;
+      margin-left: 5px;
+      list-style: none;
+
+    
+      li.active {
+        border-color: #000
       }
-      span {
-        color: grey
+      li {
+        height: 1px;
+        width: 1px;
+        margin: 0 6px 0 0;
+        border: 2px solid grey;
+        border-radius: 50%;
       }
+    }
   }
 
   div.body {
@@ -40,54 +61,125 @@ left {
     align-items: center;
 
     %headings {
-      text-align: left !important;
+      text-align: left;
     };
 
-    h2 {
-      @extend %headings;
-      }
-
-    p {
-      @extend %headings;
-    }
+    
 
     form {
-      width: 40%;
+      position: relative;
+      width: 380px;
+
+      h2 {
+        @extend %headings;
+      }
       
-      %inputs {
-        padding: 5px;
+      p {
+        @extend %headings;
+        font-size: 10px;
+
+        span {
+          color: $background-color;
+          cursor: pointer;
+        }
+      }
+      .input-container {
+        position: relative;
+      }
+      .input-container .input {
         width: 100%;
-        height: 40px;
-        border-radius: 3px;
-        border: 1px solid #cccc;
-        box-sizing: border-box;
-        -webkit-box-sizing: border-box;
-        margin-top: 10px !important;
-        margin-bottom: 10px !important;
-        background: #ffffff
+        outline: none;
+        border: 2px solid $border-color;
+        padding: 12px;
+        font-size: 16px;
+        border-radius: 5px;
+        z-index: 100;
+        margin: 20px 0 0 0;
       }
-      input {
-        @extend %inputs
+
+      .input-container .input:focus {
+        border: 2px solid royalblue;
       }
+
+      .input-container .label {
+        color: $input-color;
+        position: absolute;
+        top: 35px;
+        left: 13px;
+        background: transparent;
+        
+      }
+
+      %filled {
+        top: 13px;
+        padding: 0 3px;
+        font-size: 14px;
+        color: royalblue;
+        background-color: #ffffff;
+        transition: 0.12s;
+      }
+
+      .input-container .input:focus + .label {
+        @extend %filled;
+      }
+
+      .filled + .label{
+        @extend %filled;
+        color: $input-color;
+      }
+
+      .error {
+        color: red;
+        border: 2px solid red !important;
+      }
+     .errorLabel {
+       @extend %filled;
+       color: red;
+       position: absolute;
+        left: 13px;
+        background: #ffffff;
+     }
+      .errorText {
+        color: red;
+        padding: 0 10px;
+        font-size: 10px;
+      }
+     
+      .select {
+       width: 410px;
+      }
+
       select {
-        @extend %inputs;
+        width: 100%;
+        height: 50px;
+        background: #ffffff;
+        border-radius: 5px;
       }
+
       button {
-        @extend %inputs;
+        margin-top: 10px;
+        width: 410px;
+        border-radius: 5px;
+        border: none;
+        height: 40px;
+        padding: 10px;
         color: #000;
+        cursor: pointer;
         background-color: $background-color;
       }
       button:hover {
         color: rgb(22, 21, 21);
         background-color:$background-color-darker;
-      }
+      };
+      
+      
     }
 
   }
 
   }
 
-right {
+.right {
   grid-area: right_body;
   background-color: $background-color;
   height: 100vh;
@@ -116,5 +208,9 @@ right {
       }
     }
 
+  }
+  .helper {
+    font-size: 10px;
+    padding: 0 10px;
   }
 }

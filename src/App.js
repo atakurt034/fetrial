@@ -1,50 +1,117 @@
+import React from 'react'
 import './App.scss'
 
-function App() {
+import { e } from './lib/error_index'
+
+const App = () => {
+  const [data, setData] = React.useState({})
+  const { name, email, user_type, password } = data
+
+  const [errors, setErrors] = React.useState([{}])
+
+  const changeHandler = (event) => {
+    const { name, value } = event.target
+    setData({ ...data, [name]: value })
+    setErrors([])
+  }
+
+  const submitHandler = (event) => {
+    event.preventDefault()
+    e.error_check(data, setErrors)
+  }
+
   return (
     <main>
-      <left>
+      <section className='left'>
         <div className='steps'>
-          steps
-          <span className='active'>.</span>
-          <span>.</span>
-          <span>.</span>
+          step 1 of 3
+          <ul>
+            <li className='active' />
+            <li />
+            <li />
+          </ul>
         </div>
 
         <div className='body'>
-          <h2>Let's set up your account</h2>
-          <p>
-            Already have an account? <span>Sign in</span>
-          </p>
-          <form>
-            <input placeholder='Your name' type='text' />
-
-            <input placeholder='Email address' type='email' />
-
-            <select>
-              <option>I would describe my user type as</option>
-              <option>Programmer</option>
-              <option>Front-end</option>
-            </select>
-
-            <div>
-              <input type='password' id='password' placeholder='Password' />
-              <label htmlFor='password'>Minimum 8 characters</label>
+          <form onSubmit={submitHandler}>
+            <h2>Let's set up your account</h2>
+            <p>
+              Already have an account? <span className='bold'>Sign in</span>
+            </p>
+            <div className='input-container'>
+              <input
+                required
+                className={e.class_error(name, 'name', errors)}
+                type='text'
+                id='name'
+                name='name'
+                onChange={changeHandler}
+              />
+              <label className={e.label_error(errors, 'name')} htmlFor='name'>
+                Your name
+              </label>
+              {e.err_msg(errors, 'name')}
             </div>
 
-            <button disabled type='submit'>
-              Next
-            </button>
+            <div className='input-container '>
+              <input
+                required
+                className={e.class_error(email, 'email', errors)}
+                type='email'
+                name='email'
+                onChange={changeHandler}
+              />
+              <label className={e.label_error(errors, 'email')} htmlFor='email'>
+                Email address
+              </label>
+              {e.err_msg(errors, 'email')}
+            </div>
+
+            <div className='input-container select'>
+              <select
+                required
+                className={
+                  user_type && user_type.length > 0 ? 'input filled' : 'input'
+                }
+                name='user_type'
+                onChange={changeHandler}
+              >
+                <option value=''></option>
+                <option value='programmer'>Programmer</option>
+                <option value='frontend'>Front-end</option>
+              </select>
+              <label className='label'>I would describe my user type as</label>
+            </div>
+
+            <div className='input-container'>
+              <input
+                required
+                className={e.class_error(password, 'password', errors)}
+                type='password'
+                id='password'
+                name='password'
+                onChange={changeHandler}
+              />
+              <label
+                className={e.label_error(errors, 'password')}
+                htmlFor='password'
+              >
+                Password
+              </label>
+              {e.err_msg(errors, 'password')}
+            </div>
+
+            <button type='submit'>Next</button>
             <p>
               By click the "Next" button, you agree to creating a free account,
-              and to <span>Terms of Service</span> and{' '}
-              <span>Privacy Policy</span>{' '}
+              and to <span>Terms of Service</span> and
+              <span> Privacy Policy</span>
             </p>
           </form>
         </div>
-      </left>
+      </section>
 
-      <right>
+      <section className='right'>
         <div>
           <h2>Dummy Heading</h2>
           <p>
@@ -52,7 +119,7 @@ function App() {
             ejusmod tempor incididunt ut labore et dolore magna aliqua.
           </p>
         </div>
-      </right>
+      </section>
     </main>
   )
 }
